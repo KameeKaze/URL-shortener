@@ -3,11 +3,13 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"net/http"
 
-	"github.com/KameeKaze/URL-shortener/types"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+
+	"github.com/KameeKaze/URL-shortener/types"
 )
 
 func RoutesHandler() {
@@ -16,6 +18,7 @@ func RoutesHandler() {
 
 	//routes
 	r.Get("/", Home)
+	r.Post("/url", URL)
 
 	//start
 	fmt.Println("Running on http://127.0.0.1:" + "3000")
@@ -23,16 +26,20 @@ func RoutesHandler() {
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	createHttpResponse(w, http.StatusOK, "Simple URL shortener")
+	//set status code
+	w.WriteHeader(http.StatusOK)
+
+	tmpl, _ := template.ParseFiles("templates/index.html")
+	tmpl.Execute(w, "")
 }
 
-func createHttpResponse(w http.ResponseWriter, statusCode int, text string) {
+func URL(w http.ResponseWriter, r *http.Request) {
 	//set status code
-	w.WriteHeader(statusCode)
-	//create json
-	r, _ := json.Marshal(types.HTTPResponse{
-		Msg: text,
-	})
-	//send data
-	w.Write([]byte(r))
+	w.WriteHeader(http.StatusOK)
+	//decode body data
+	body := &types.URL{}
+	json.NewDecoder(r.Body).Decode(&body)
+	fmt.Println(body)
+	w.Write([]byte("asd\n"))
+
 }
