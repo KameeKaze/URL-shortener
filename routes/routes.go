@@ -6,23 +6,21 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/go-chi/chi/middleware"
-	"github.com/go-chi/chi/v5"
-
 	"github.com/KameeKaze/URL-shortener/types"
+	"github.com/gorilla/mux"
 )
 
 func RoutesHandler() {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+	r := mux.NewRouter()
 
 	//routes
-	r.Get("/", Home)
-	r.Post("/url", URL)
+	r.PathPrefix("/css").Handler(http.StripPrefix("/css", http.FileServer(http.Dir("templates/css")))).Methods("GET")
+	r.HandleFunc("/", Home).Methods("GET")
+	r.HandleFunc("/url", URL).Methods("POST")
 
-	//start
-	fmt.Println("Running on http://127.0.0.1:" + "3000")
-	http.ListenAndServe(":3000", r)
+	fmt.Println("Running on http://127.0.0.1:" + "2222")
+	http.ListenAndServe(":2222", r)
+
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -33,13 +31,19 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, "")
 }
 
+func CSS(w http.ResponseWriter, r *http.Request) {
+	//set status code
+	w.WriteHeader(http.StatusOK)
+
+	tmpl, _ := template.ParseFiles("templates/css/styles.css")
+	tmpl.Execute(w, "")
+}
+
 func URL(w http.ResponseWriter, r *http.Request) {
 	//set status code
 	w.WriteHeader(http.StatusOK)
 	//decode body data
 	body := &types.URL{}
 	json.NewDecoder(r.Body).Decode(&body)
-	fmt.Println(body)
 	w.Write([]byte("asd\n"))
-
 }
