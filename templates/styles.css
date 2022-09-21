@@ -1,0 +1,24 @@
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
+
+body {
+    background-color: rgb(20, 20, 20);
+    color: rgb(0, 255, 0);
+    text-align: center;
+    margin-top: 20%;
+    font-size: 60px;
+    font-family: Audiowide;
+}
+
+input {
+    box-sizing: border-box;
+    border: 5px solid rgb(0, 255, 0);
+    border-radius: 100px;
+    height: 80px;
+    width: 60%;
+    font-size: 30px;
+    font-family: Audiowide;
+    margin: 10px 0;
+    padding: 15px 20px;
+    background-color: rgb(25, 25, 25);
+    color: rgb(0, 255, 0);
+}
