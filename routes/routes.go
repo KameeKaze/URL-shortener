@@ -30,14 +30,6 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, "")
 }
 
-func CSS(w http.ResponseWriter, r *http.Request) {
-	//set status code
-	w.WriteHeader(http.StatusOK)
-
-	tmpl, _ := template.ParseFiles("templates/css/styles.css")
-	tmpl.Execute(w, "")
-}
-
 func ShortURL(w http.ResponseWriter, r *http.Request) {
 	//set status code
 	w.WriteHeader(http.StatusOK)
