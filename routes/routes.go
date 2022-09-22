@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"net/url"
+	"os"
 
 	"github.com/KameeKaze/URL-shortener/db"
 	"github.com/KameeKaze/URL-shortener/utils"
@@ -24,7 +25,7 @@ func RoutesHandler() {
 	r.HandleFunc("/", ShortURL).Methods("POST")
 	r.HandleFunc("/{short}", GetURL).Methods("GET")
 
-	fmt.Println("Running on http://127.0.0.1:" + "2000")
+	fmt.Println("Running on http://127.0.0.1:" + os.Getenv("PORT"))
 	http.ListenAndServe(":2000", r)
 
 }
