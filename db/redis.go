@@ -25,3 +25,8 @@ func (r *REDIS) SetURL(URI, URL string) error {
 	err := r.db.Set(URI, URL, 0).Err()
 	return err
 }
+
+func (r *REDIS) GetURL(URL string) (string, error) {
+	val, err := r.db.Get(URL).Result()
+	return val, err
+}
