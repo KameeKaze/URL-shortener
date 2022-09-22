@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/KameeKaze/URL-shortener/db"
+	"github.com/KameeKaze/URL-shortener/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -17,8 +19,8 @@ func RoutesHandler() {
 	r.HandleFunc("/", Home).Methods("GET")
 	r.HandleFunc("/url", ShortURL).Methods("POST")
 
-	fmt.Println("Running on http://127.0.0.1:" + "2222")
-	http.ListenAndServe(":2222", r)
+	fmt.Println("Running on http://127.0.0.1:" + "2000")
+	http.ListenAndServe(":2000", r)
 
 }
 
@@ -40,6 +42,15 @@ func ShortURL(w http.ResponseWriter, r *http.Request) {
 	_, err := url.ParseRequestURI(URL)
 	if err != nil {
 		w.Write([]byte("invalid url\n"))
+		return
+	}
+
+	URI := utils.RandStringBytes()
+
+	err = db.Redis.SetURL(URI, URL)
+	if err != nil {
+		w.Write([]byte("database error\n"))
+		fmt.Println(err)
 		return
 	}
 

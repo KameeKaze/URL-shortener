@@ -20,3 +20,8 @@ var (
 		}),
 	}
 )
+
+func (r *REDIS) SetURL(URI, URL string) error {
+	err := r.db.Set(URI, URL, 0).Err()
+	return err
+}
